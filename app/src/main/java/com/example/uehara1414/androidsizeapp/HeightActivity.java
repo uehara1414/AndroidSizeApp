@@ -2,10 +2,13 @@ package com.example.uehara1414.androidsizeapp;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,7 +25,7 @@ public class HeightActivity extends AppCompatActivity {
         myHeight = (TextView)findViewById(R.id.my_height);
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        int height = pref.getInt(HEIGHT, 160);
+        final int height = pref.getInt(HEIGHT, 160);
         myHeight.setText(String.valueOf(height));
 
         Spinner spinner = (Spinner)findViewById(R.id.spinner);
@@ -65,6 +68,19 @@ public class HeightActivity extends AppCompatActivity {
                     }
                 }
         );
+
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radio_group);
+        radioGroup.setOnCheckedChangeListener(
+                new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+                        RadioButton radioButton = (RadioButton)findViewById(i);
+                        String value = radioButton.getText().toString();
+                        myHeight.setText(value);
+                    }
+                }
+        );
+
     }
 
     @Override
