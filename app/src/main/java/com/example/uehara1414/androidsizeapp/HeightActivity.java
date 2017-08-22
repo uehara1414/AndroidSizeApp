@@ -1,15 +1,17 @@
 package com.example.uehara1414.androidsizeapp;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 public class HeightActivity extends AppCompatActivity {
+    public static final String HEIGHT = "HEIGHT";
     private TextView myHeight;
 
     @Override
@@ -18,6 +20,10 @@ public class HeightActivity extends AppCompatActivity {
         setContentView(R.layout.activity_height);
 
         myHeight = (TextView)findViewById(R.id.my_height);
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        int height = pref.getInt(HEIGHT, 160);
+        myHeight.setText(String.valueOf(height));
 
         Spinner spinner = (Spinner)findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(
@@ -37,5 +43,37 @@ public class HeightActivity extends AppCompatActivity {
                     }
                 }
         );
+
+        SeekBar seekBar = (SeekBar)findViewById(R.id.seek_bar);
+        seekBar.setProgress(height);
+        seekBar.setOnSeekBarChangeListener(
+                new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                        String value = String.valueOf(i);
+                        myHeight.setText(value);
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                }
+        );
     }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt(HEIGHT, Integer.parseInt(myHeight.getText().toString()));
+        editor.commit();
+    }
+
 }
