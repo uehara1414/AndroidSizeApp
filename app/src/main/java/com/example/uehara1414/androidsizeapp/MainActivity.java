@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
                 .setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view){
-                        Log.d("I", "onClick");
                         Intent intent = new Intent(MainActivity.this, HeightActivity.class);
                         startActivity(intent);
                     }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AndroidSizeApp</string>
+    <string name="height">身長</string>
 </resources>
